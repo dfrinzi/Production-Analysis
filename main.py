@@ -1,18 +1,31 @@
-import pandas
 import pandas as pd
-from prod_reader import ProdReader
+from monthly_production_reader import MonthlyProductionReader
+from summarize_production_by_workcenter import SummarizeProductionByWorkcenter
 
 PART_DATA_CSV = "test_data/base_data/manifold_base_data_2_2024.csv"
 WORKCENTER_LOOKUP = "test_data/workcenter_name_lookup.csv"
-JAN_PROD = "test_data/prod_summaries_by_part/prod_jan24.csv"
+MONTHLY_PRODUCTION_CSV_FILES = {
+    "Jan": "test_data/prod_summaries_by_part/prod_jan24.csv",
+    "Feb": "test_data/prod_summaries_by_part/prod_feb24.csv",
+    "Mar": "",
+    "Apr": "",
+}
+
+part_data_df = pd.DataFrame(pd.read_csv(PART_DATA_CSV).to_dict())
+contract_parts = part_data_df.loc[part_data_df["hf_contract_2024"].notna()]
+
+monthly_production_reader = MonthlyProductionReader(WORKCENTER_LOOKUP)
+summarize_production_by_workcenter = SummarizeProductionByWorkcenter(part_data_df)
 
 
-part_df = pandas.DataFrame(pd.read_csv(PART_DATA_CSV).to_dict())
-contract_parts = part_df.loc[part_df["hf_contract_2024"].notna()]
 
 # print(contract_parts)
 # print(part_df.loc[part_df["hf_contract_2024"].notna(), ["part", "hf_contract_2024"]])
 
-jan_prod = ProdReader(JAN_PROD, WORKCENTER_LOOKUP)
-print(jan_prod.prod_df)
+jan_production_df = monthly_production_reader.read_monthly_production(MONTHLY_PRODUCTION_CSV_FILES["Jan"])
+feb_production_df = monthly_production_reader.read_monthly_production(MONTHLY_PRODUCTION_CSV_FILES["Feb"])
 
+# print(f"January: {jan_production_df}")
+# print(f"February: {feb_production_df}")
+
+jan_workcenter_summary = summarize_production_by_workcenter.summarize(jan_production_df)
