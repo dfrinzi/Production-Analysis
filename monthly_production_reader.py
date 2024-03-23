@@ -1,5 +1,6 @@
 import pandas as pd
 
+MONTHLY_PRODUCTION_DF_CSV_OUT = "test_data/output/monthly_production_df.csv"
 
 class MonthlyProductionReader:
     def __init__(self, workcenter_lookup_csv):
@@ -12,6 +13,7 @@ class MonthlyProductionReader:
         self.fill_workcenter_labels()
         self.split_part_number_and_revision()
         self.drop_zero_quantity_rows()
+        self.monthly_production_df.to_csv(MONTHLY_PRODUCTION_DF_CSV_OUT)
         return self.monthly_production_df
 
     def drop_unneeded_rows_columns(self):
