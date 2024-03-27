@@ -7,11 +7,11 @@ class SummarizeProductionByWorkcenter:
     def __init__(self, part_data_df):
         self.part_data_df = part_data_df
         self.summary_df = pd.DataFrame()
-        self.summary_df[f"{s.summary_dfch_workcenter}"] = str
-        self.summary_df[f"{s.summary_dfch_parts}"] = object
-        self.summary_df[f"{s.summary_dfch_part_number_count}"] = int
-        self.summary_df[f"{s.summary_dfch_part_count}"] = int
-        self.summary_df[f"{s.summary_dfch_machine_hours}"] = int
+        self.summary_df[f"{s.summary_col_workcenter}"] = str
+        self.summary_df[f"{s.summary_col_parts}"] = object
+        self.summary_df[f"{s.summary_col_part_number_count}"] = int
+        self.summary_df[f"{s.summary_col_part_count}"] = int
+        self.summary_df[f"{s.summary_col_machine_hours}"] = int
 
     def summarize(self, monthly_production_df):
         self.summarize_parts_by_workcenter(monthly_production_df)
@@ -25,23 +25,23 @@ class SummarizeProductionByWorkcenter:
         # print(test)
 
         for i in range(len(monthly_production_df)):
-            current_workcenter = monthly_production_df[f"{s.monthly_prod_dfch_workcenter}"][i]
+            current_workcenter = monthly_production_df[f"{s.monthly_prod_col_workcenter}"][i]
 
             if last_workcenter != current_workcenter:
                 last_workcenter = current_workcenter
                 parts_list_df_current_workcenter = (pd.DataFrame(monthly_production_df.query
-                                                                 (f"{s.monthly_prod_dfch_workcenter}=="
+                                                                 (f"{s.monthly_prod_col_workcenter}=="
                                                                   f"'{current_workcenter}'")[
-                                                                     f"{s.monthly_prod_dfch_part}"])
+                                                                     f"{s.monthly_prod_col_part}"])
                                                     .reset_index(drop=True))
 
-                self.summary_df.at[i, f'{s.summary_dfch_workcenter}'] = current_workcenter
+                self.summary_df.at[i, f'{s.summary_col_workcenter}'] = current_workcenter
                 parts_list = []
                 total_wc_part_count = 0
                 total_wc_hours = 0
 
                 for j in range(len(parts_list_df_current_workcenter)):
-                    current_part = parts_list_df_current_workcenter[f"{s.monthly_prod_dfch_part}"][j]
+                    current_part = parts_list_df_current_workcenter[f"{s.monthly_prod_col_part}"][j]
 
                     parts_list.append(current_part)
 
@@ -53,7 +53,7 @@ class SummarizeProductionByWorkcenter:
 
                     # total hours per workcenter
                     df = self.part_data_df
-                    cycle = 1/60 * df[df[s.part_data_dfch_part] == current_part][s.part_data_dfch_cycle].values
+                    cycle = 1/60 * df[df[s.part_data_col_part] == current_part][s.part_data_col_cycle].values
                     current_part_prod_hours = cycle * current_part_qty_prod
                     total_wc_hours += current_part_prod_hours
                     # print(current_part)
@@ -61,9 +61,9 @@ class SummarizeProductionByWorkcenter:
                     # print(current_part_qty_prod)
                     # print(current_part_prod_hours)
 
-                self.summary_df.at[i, f'{s.summary_dfch_parts}'] = parts_list
-                self.summary_df.at[i, f'{s.summary_dfch_part_number_count}'] = len(parts_list_df_current_workcenter)
-                self.summary_df.at[i, f'{s.summary_dfch_part_count}'] = total_wc_part_count
+                self.summary_df.at[i, f'{s.summary_col_parts}'] = parts_list
+                self.summary_df.at[i, f'{s.summary_col_part_number_count}'] = len(parts_list_df_current_workcenter)
+                self.summary_df.at[i, f'{s.summary_col_part_count}'] = total_wc_part_count
                 self.summary_df.reset_index(drop=True, inplace=True)
 
                 # print(parts_list)
