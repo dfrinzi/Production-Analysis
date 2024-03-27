@@ -1,6 +1,9 @@
 import pandas as pd
 
+import settings as s
+
 MONTHLY_PRODUCTION_DF_CSV_OUT = "test_data/output/monthly_production_df.csv"
+
 
 class MonthlyProductionReader:
     def __init__(self, workcenter_lookup_csv):
@@ -13,6 +16,7 @@ class MonthlyProductionReader:
         self.fill_workcenter_labels()
         self.split_part_number_and_revision()
         self.drop_zero_quantity_rows()
+        self.rename_columns()
         self.monthly_production_df.to_csv(MONTHLY_PRODUCTION_DF_CSV_OUT)
         return self.monthly_production_df
 
@@ -64,3 +68,8 @@ class MonthlyProductionReader:
     def drop_zero_quantity_rows(self):
         self.monthly_production_df = self.monthly_production_df[self.monthly_production_df['Qty Prod'] != 0.0]
         self.monthly_production_df.reset_index(drop=True, inplace=True)
+
+    def rename_columns(self):
+        self.monthly_production_df.rename(columns={'Part': f'{s.monthly_prod_dfch_part}',
+                                                   'Workcenter': f'{s.monthly_prod_dfch_workcenter}',
+                                                   'Qty Prod': f'{s.monthly_prod_df_qty_prod}'}, inplace=True)

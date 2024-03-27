@@ -1,36 +1,30 @@
 import pandas as pd
+import settings as s
 from monthly_production_reader import MonthlyProductionReader
 from summarize_production_by_workcenter import SummarizeProductionByWorkcenter
+from monthly_production_expander import MonthlyProductionExpander
 
+# pandas settings
 pd.set_option('display.max_columns', 10)
 pd.set_option('display.width', 400)
 
-PART_DATA_CSV = "test_data/base_data/manifold_base_data_2_2024.csv"
-WORKCENTER_LOOKUP = "test_data/workcenter_name_lookup.csv"
-MONTHLY_PRODUCTION_CSV_FILES = {
-    "Jan": "test_data/prod_summaries_by_part/prod_jan24.csv",
-    "Feb": "test_data/prod_summaries_by_part/prod_feb24.csv",
-    "Mar": "",
-    "Apr": "",
-}
+# loading part data csvs
+part_data_df = pd.DataFrame(pd.read_csv(s.part_data_csv_path))
+contract_parts_df = part_data_df.loc[part_data_df[s.part_data_dfch_hfcontract].notna()]
 
-part_data_df = pd.DataFrame(pd.read_csv(PART_DATA_CSV).to_dict())
-contract_parts = part_data_df.loc[part_data_df["hf_contract_2024"].notna()]
-
-monthly_production_reader = MonthlyProductionReader(WORKCENTER_LOOKUP)
+# initialize objects
+monthly_production_reader = MonthlyProductionReader(s.workcenter_lookup_csv_path)
+monthly_production_expander = MonthlyProductionExpander()
 summarize_production_by_workcenter = SummarizeProductionByWorkcenter(part_data_df)
 
+# print(contract_parts_df)
 
+jan_production_df = monthly_production_reader.read_monthly_production(s.monthly_production_csv_file_paths["Jan"])
+jan_production_df = monthly_production_expander.expand(jan_production_df, part_data_df)
 
-# print(contract_parts)
-# print(part_df.loc[part_df["hf_contract_2024"].notna(), ["part", "hf_contract_2024"]])
-
-jan_production_df = monthly_production_reader.read_monthly_production(MONTHLY_PRODUCTION_CSV_FILES["Jan"])
-# feb_production_df = monthly_production_reader.read_monthly_production(MONTHLY_PRODUCTION_CSV_FILES["Feb"])
-
-# print(f"January: {jan_production_df}")
+print(f"{jan_production_df}")
 # print(f"February: {feb_production_df}")
 
-jan_workcenter_summary = summarize_production_by_workcenter.summarize(jan_production_df)
+# jan_workcenter_summary = summarize_production_by_workcenter.summarize(jan_production_df)
 
 # print(jan_workcenter_summary)
