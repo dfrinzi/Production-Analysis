@@ -32,7 +32,7 @@ class SummarizeProductionByWorkcenter:
                 parts_list_df_current_workcenter = (pd.DataFrame(monthly_production_df.query
                                                                  (f"{s.monthly_prod_col_workcenter}=="
                                                                   f"'{current_workcenter}'")[
-                                                                     f"{s.monthly_prod_col_part}"])
+                                                                     f"{s.column_part_number}"])
                                                     .reset_index(drop=True))
 
                 self.summary_df.at[i, f'{s.summary_col_workcenter}'] = current_workcenter
@@ -41,7 +41,7 @@ class SummarizeProductionByWorkcenter:
                 total_wc_hours = 0
 
                 for j in range(len(parts_list_df_current_workcenter)):
-                    current_part = parts_list_df_current_workcenter[f"{s.monthly_prod_col_part}"][j]
+                    current_part = parts_list_df_current_workcenter[f"{s.column_part_number}"][j]
 
                     parts_list.append(current_part)
 
@@ -53,7 +53,7 @@ class SummarizeProductionByWorkcenter:
 
                     # total hours per workcenter
                     df = self.part_data_df
-                    cycle = 1/60 * df[df[s.part_data_col_part] == current_part][s.part_data_col_cycle].values
+                    cycle = 1/60 * df[df[s.column_part_number] == current_part][s.part_data_col_cycle].values
                     current_part_prod_hours = cycle * current_part_qty_prod
                     total_wc_hours += current_part_prod_hours
                     # print(current_part)

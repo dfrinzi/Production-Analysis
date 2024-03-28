@@ -15,17 +15,19 @@ class SummarizeProduction:
 
         # contract hours
         hours_df = monthly_production_df[monthly_production_df[s.part_data_col_hfcontract].notna()]
-        hours = hours_df[s.monthly_prod_col_df_hours].sum()
-        percent = hours / total_hours * 100
-        df[s.summary_col_contract_hours] = hours
-        df[s.summary_col_contract_percent] = percent
+        contract_hours = hours_df[s.monthly_prod_col_df_hours].sum()
+        percent = contract_hours / total_hours * 100
+        # df[s.summary_col_contract_hours] = contract_hours
+        df[s.summary_col_contract_percent_total] = percent
 
         # hf hours
         hours_df = monthly_production_df[monthly_production_df[s.part_data_col_customer] == s.hyfo]
         hours = hours_df[s.monthly_prod_col_df_hours].sum()
         percent = hours / total_hours * 100
+        contract_percent = contract_hours / hours * 100
         # df[s.summary_col_hyfo_hours] = hours
         df[s.summary_col_hyfo_percent] = percent
+        df[s.summary_col_contract_percent] = contract_percent
 
         # hy hours
         hours_df = monthly_production_df[monthly_production_df[s.part_data_col_customer] == s.hyda]
@@ -42,5 +44,5 @@ class SummarizeProduction:
         df[s.summary_col_daman_percent] = percent
 
         df = df.transpose()
-        print(df)
+        # print(df)
 

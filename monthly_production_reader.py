@@ -1,23 +1,20 @@
 import pandas as pd
-
 import settings as s
-
-MONTHLY_PRODUCTION_DF_CSV_OUT = "test_data/output/monthly_production_df.csv"
 
 
 class MonthlyProductionReader:
     def __init__(self, workcenter_lookup_csv):
-        self.workcenter_df = pd.DataFrame(pd.read_csv(workcenter_lookup_csv).to_dict())
+        self.workcenter_df = pd.DataFrame(pd.read_csv(workcenter_lookup_csv))
         self.monthly_production_df = pd.DataFrame
 
     def read_monthly_production(self, monthly_production_csv):
-        self.monthly_production_df = pd.DataFrame(pd.read_csv(monthly_production_csv).to_dict())
+        self.monthly_production_df = pd.DataFrame(pd.read_csv(monthly_production_csv))
         self.drop_unneeded_rows_columns()
         self.fill_workcenter_labels()
         self.split_part_number_and_revision()
         self.drop_zero_quantity_rows()
         self.rename_columns()
-        self.monthly_production_df.to_csv(MONTHLY_PRODUCTION_DF_CSV_OUT)
+        self.monthly_production_df.to_csv(s.monthly_production_df_csv_output)
         return self.monthly_production_df
 
     def drop_unneeded_rows_columns(self):
@@ -70,6 +67,6 @@ class MonthlyProductionReader:
         self.monthly_production_df.reset_index(drop=True, inplace=True)
 
     def rename_columns(self):
-        self.monthly_production_df.rename(columns={'Part': f'{s.monthly_prod_col_part}',
+        self.monthly_production_df.rename(columns={'Part': f'{s.column_part_number}',
                                                    'Workcenter': f'{s.monthly_prod_col_workcenter}',
                                                    'Qty Prod': f'{s.monthly_prod_col_qty_prod}'}, inplace=True)

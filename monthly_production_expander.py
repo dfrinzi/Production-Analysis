@@ -12,14 +12,18 @@ class MonthlyProductionExpander:
 
     def expand(self, monthly_prod_df, part_data_df):
         monthly_prod_df = pd.merge(monthly_prod_df, part_data_df[[
-            s.part_data_col_part,
+            s.column_part_number,
             s.part_data_col_customer,
             s.part_data_col_material,
             s.part_data_col_cycle,
             s.part_data_col_hfcontract,
-        ]], on=s.monthly_prod_col_part, how='left')
+        ]], on=s.column_part_number, how='left')
 
         monthly_prod_df[s.monthly_prod_col_df_hours] = (monthly_prod_df[s.monthly_prod_col_qty_prod] *
                                                          monthly_prod_df[s.part_data_col_cycle] / 60)
+
+        monthly_prod_df[s.monthly_prod_col_hours_percent] = (monthly_prod_df[s.monthly_prod_col_df_hours] /
+                                                             monthly_prod_df[s.monthly_prod_col_df_hours].sum() * 100)
+        # print(monthly_prod_df[s.monthly_prod_col_qty_prod].sum())
 
         return monthly_prod_df
