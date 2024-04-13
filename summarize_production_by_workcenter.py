@@ -25,14 +25,14 @@ class SummarizeProductionByWorkcenter:
         # print(test)
 
         for i in range(len(monthly_production_df)):
-            current_workcenter = monthly_production_df[f"{s.monthly_prod_col_workcenter}"][i]
+            current_workcenter = monthly_production_df[f"{s.col_workcenter}"][i]
 
             if last_workcenter != current_workcenter:
                 last_workcenter = current_workcenter
                 parts_list_df_current_workcenter = (pd.DataFrame(monthly_production_df.query
-                                                                 (f"{s.monthly_prod_col_workcenter}=="
+                                                                 (f"{s.col_workcenter}=="
                                                                   f"'{current_workcenter}'")[
-                                                                     f"{s.column_part_number}"])
+                                                                     f"{s.col_part_number}"])
                                                     .reset_index(drop=True))
 
                 self.summary_df.at[i, f'{s.summary_col_workcenter}'] = current_workcenter
@@ -41,7 +41,7 @@ class SummarizeProductionByWorkcenter:
                 total_wc_hours = 0
 
                 for j in range(len(parts_list_df_current_workcenter)):
-                    current_part = parts_list_df_current_workcenter[f"{s.column_part_number}"][j]
+                    current_part = parts_list_df_current_workcenter[f"{s.col_part_number}"][j]
 
                     parts_list.append(current_part)
 
@@ -53,7 +53,7 @@ class SummarizeProductionByWorkcenter:
 
                     # total hours per workcenter
                     df = self.part_data_df
-                    cycle = 1/60 * df[df[s.column_part_number] == current_part][s.part_data_col_cycle].values
+                    cycle = 1/60 * df[df[s.col_part_number] == current_part][s.col_cycle_minutes].values
                     current_part_prod_hours = cycle * current_part_qty_prod
                     total_wc_hours += current_part_prod_hours
                     # print(current_part)

@@ -8,12 +8,12 @@ import gross_margin_reader
 
 
 # pandas settings
-pd.set_option('display.max_columns', 10)
+pd.set_option('display.max_columns', 18)
 pd.set_option('display.width', 400)
 
 # loading data csvs
 part_data_df = pd.DataFrame(pd.read_csv(s.part_data_csv_path))
-contract_parts_df = part_data_df.loc[part_data_df[s.part_data_col_hfcontract].notna()]
+contract_parts_df = part_data_df.loc[part_data_df[s.col_hyfo_contract].notna()]
 gross_margin_df = pd.DataFrame(pd.read_csv(s.gross_margin_csv_path))
 
 # initialize objects
@@ -27,9 +27,9 @@ gross_margin_df = gross_margin_reader.read_gross_margin(gross_margin_df)
 
 # monthly reports
 jan_production_df = monthly_production_reader.read_monthly_production(s.monthly_production_csv_file_paths["Jan"])
-jan_production_df = monthly_production_expander.expand(jan_production_df, part_data_df)
+jan_production_df = monthly_production_expander.expand(jan_production_df, part_data_df, gross_margin_df)
 
-# print(jan_production_df)
+print(jan_production_df)
 # print(f"February: {feb_production_df}")
 
 summary = summarize_production.summarize(jan_production_df)

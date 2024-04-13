@@ -1,19 +1,33 @@
 
 
 # data frame column headers
-column_part_number = "part"
-part_data_col_cycle = "cycle_minutes"
-part_data_col_hfcontract = "hf_contract_2024"
-part_data_col_material = "material"
-part_data_col_customer = "customer"
-part_data_col_machine_plan = "machine_plan_2024_1"
+# base data
+col_part_number = "part"
+col_cycle_minutes = "cycle_minutes"
+col_hyfo_contract = "hf_contract_2024"
+col_material = "material"
+col_customer = "customer"
+col_machine_planned = "machine_plan_2024_1"
 
-monthly_prod_col_workcenter = "workcenter"
-monthly_prod_col_qty_prod = "qty"
-monthly_prod_col_rev = "rev"
-monthly_prod_col_df_hours = "hours"
-monthly_prod_col_hours_percent = "hours/total %"
+# monthly data
+col_workcenter = "workcenter"
+col_qty_produced = "qty"
+col_part_revision = "rev"
+col_total_hours_produced = "total_hours"
+col_total_hours_percent = "hours/total %"
+col_total_dollars_produced = "total_production"
+col_total_dollars_percent = "production/total %"
+col_margin_dollars = "gross_margin"
+col_total_margin_dollars = "total_margin_dollars"
+col_total_margin_dollars_percent = "margin/total %"
 
+# gross margin report
+col_invoice_number = "invoice #"
+col_gross_margin_percent = "gm %"
+col_sale_price = "sale_price"
+
+# summary report
+summary_col_blank = " "
 summary_col_workcenter = "Workcenter"
 summary_col_parts = "Part List"
 summary_col_part_number_count = "Part Num Count"
@@ -22,6 +36,10 @@ summary_col_runtime = "Run Time"
 summary_col_machine_hours = "Machine Hours"
 
 summary_col_total_hours = "Total Hours"
+summary_col_total_production = "Total Production $"
+summary_col_total_margin = "Total Margin $"
+summary_col_total_margin_percent = "Plex Gross Margin %"
+
 summary_col_contract_hours = "Hyfo Contract Hours"
 summary_col_hyda_hours = "Hyda Hours"
 summary_col_hyfo_hours = "Hyfo Hours"
@@ -31,10 +49,9 @@ summary_col_contract_percent = "Contract Hrs % of Hyfo"
 summary_col_hyda_percent = "Hyda Hrs % of Total"
 summary_col_hyfo_percent = "Hyfo Hrs % of Total"
 summary_col_daman_percent = "Daman Hrs % of Total"
+summary_col_total_dollars = "Sales Value of Production"
 
-column_invoice_num = "invoice #"
-column_gross_margin_percent = "gm %"
-column_gross_margin_price = "gm pc $"
+
 
 # filepaths
 monthly_production_df_csv_output = "test_data/output/monthly_production_df.csv"

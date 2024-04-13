@@ -67,6 +67,6 @@ class MonthlyProductionReader:
         self.monthly_production_df.reset_index(drop=True, inplace=True)
 
     def rename_columns(self):
-        self.monthly_production_df.rename(columns={'Part': f'{s.column_part_number}',
-                                                   'Workcenter': f'{s.monthly_prod_col_workcenter}',
-                                                   'Qty Prod': f'{s.monthly_prod_col_qty_prod}'}, inplace=True)
+        self.monthly_production_df.rename(columns={'Part': f'{s.col_part_number}',
+                                                   'Workcenter': f'{s.col_workcenter}',
+                                                   'Qty Prod': f'{s.col_qty_produced}'}, inplace=True)
