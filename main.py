@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import settings as s
 from monthly_production_reader import MonthlyProductionReader
@@ -26,13 +27,23 @@ summarize_production_by_workcenter = SummarizeProductionByWorkcenter(part_data_d
 gross_margin_df = gross_margin_reader.read_gross_margin(gross_margin_df)
 
 # monthly reports
-jan_production_df = monthly_production_reader.read_monthly_production(s.monthly_production_csv_file_paths["Jan"])
-jan_production_df = monthly_production_expander.expand(jan_production_df, part_data_df, gross_margin_df)
+monthly_file_list = os.listdir(s.monthly_production_csv_folder)
 
-print(jan_production_df)
-# print(f"February: {feb_production_df}")
+monthly_summary_df = pd.DataFrame()
 
-summary = summarize_production.summarize(jan_production_df)
-# jan_workcenter_summary = summarize_production_by_workcenter.summarize(jan_production_df)
+for file in monthly_file_list:
+    file_no_ext = os.path.splitext(file)[0]
 
-# print(jan_workcenter_summary)
+    monthly_production_df = monthly_production_reader.read_monthly_production(s.monthly_production_csv_folder + file)
+    monthly_production_df = monthly_production_expander.expand(monthly_production_df, part_data_df, gross_margin_df)
+    monthly_production_df.to_csv(s.monthly_production_df_csv_output_folder + file)
+
+    summary = summarize_production.summarize(monthly_production_df)
+    summary.rename(index={0: file_no_ext}, inplace=True)
+    monthly_summary_df = pd.concat([monthly_summary_df, summary])
+
+monthly_summary_df = monthly_summary_df.transpose()
+print(monthly_summary_df)
+
+monthly_summary_df.to_csv(s.monthly_summary_df_csv_output_path)
+

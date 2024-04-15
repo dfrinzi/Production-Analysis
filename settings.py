@@ -54,16 +54,18 @@ summary_col_total_dollars = "Sales Value of Production"
 
 
 # filepaths
-monthly_production_df_csv_output = "test_data/output/monthly_production_df.csv"
+monthly_production_df_csv_output_folder = "test_data/output/"
+monthly_summary_df_csv_output_path = "test_data/output/monthly summary.csv"
 part_data_csv_path = "test_data/base_data/manifold_base_data_2_2024.csv"
 workcenter_lookup_csv_path = "test_data/workcenter_name_lookup.csv"
 gross_margin_csv_path = "test_data/base_data/Gross_Margin_Download_2024_03_27.csv"
 master_price_csv_path = "test_data/base_data/Master_Price_List_Export_2024_03_27.csv"
 
+monthly_production_csv_folder = "test_data/prod_summaries_by_part/"
 monthly_production_csv_file_paths = {
-    "Jan": "test_data/prod_summaries_by_part/prod_jan24.csv",
-    "Feb": "test_data/prod_summaries_by_part/prod_feb24.csv",
-    "Mar": "",
+    "Jan": "01-2024.csv",
+    "Feb": "02-2024.csv",
+    "Mar": "03-2024.csv",
     "Apr": "",
 }
 

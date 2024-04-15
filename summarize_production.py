@@ -52,8 +52,7 @@ class SummarizeProduction:
         # df[s.summary_col_daman_hours] = hours
         df[s.summary_col_daman_percent] = percent
 
-
-
-        df = df.transpose()
-        print(df)
+        # df = df.transpose()
+        # print(df)
+        return df
 

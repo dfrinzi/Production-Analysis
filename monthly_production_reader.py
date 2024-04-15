@@ -14,7 +14,6 @@ class MonthlyProductionReader:
         self.split_part_number_and_revision()
         self.drop_zero_quantity_rows()
         self.rename_columns()
-        self.monthly_production_df.to_csv(s.monthly_production_df_csv_output)
         return self.monthly_production_df
 
     def drop_unneeded_rows_columns(self):
