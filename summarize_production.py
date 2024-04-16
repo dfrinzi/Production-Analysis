@@ -20,37 +20,63 @@ class SummarizeProduction:
         df[s.summary_col_total_production] = total_production
         df[s.summary_col_total_margin] = total_margin
         df[s.summary_col_total_margin_percent] = margin_percent
-        df[s.summary_col_blank] = ""
 
-        # contract hours
-        hours_df = monthly_production_df[monthly_production_df[s.col_hyfo_contract].notna()]
-        contract_hours = hours_df[s.col_total_hours_produced].sum()
-        percent = contract_hours / total_hours * 100
-        # df[s.summary_col_contract_hours] = contract_hours
-        df[s.summary_col_contract_percent_total] = percent
+        # margins
+        hyfo_combined_margin_df = monthly_production_df[monthly_production_df[s.col_customer] == s.hyfo]
+        hyfo_combined_margin_sum = hyfo_combined_margin_df[s.col_total_margin_dollars].sum()
+        hyfo_combined_production_sum = hyfo_combined_margin_df[s.col_total_dollars_produced].sum()
+        df[s.summary_col_hyfo_combined_margin] = 100 * hyfo_combined_margin_sum / hyfo_combined_production_sum
+        # todo: change to use loc to preserve index
+        hyfo_contract_margin_df = hyfo_combined_margin_df[monthly_production_df[s.col_hyfo_contract].notna()]
+        hyfo_contract_margin_sum = hyfo_contract_margin_df[s.col_total_margin_dollars].sum()
+        hyfo_contract_production_sum = hyfo_contract_margin_df[s.col_total_dollars_produced].sum()
+        df[s.summary_col_hyfo_contract_margin] = 100 * hyfo_contract_margin_sum / hyfo_contract_production_sum
+
+        hyfo_noncontract_margin_df = hyfo_combined_margin_df[monthly_production_df[s.col_hyfo_contract].isna()]
+        hyfo_noncontract_margin_sum = hyfo_noncontract_margin_df[s.col_total_margin_dollars].sum()
+        hyfo_noncontract_production_sum = hyfo_noncontract_margin_df[s.col_total_dollars_produced].sum()
+        df[s.summary_col_hyfo_noncontract_margin] = 100 * hyfo_noncontract_margin_sum / hyfo_noncontract_production_sum
+
+        hyda_combined_margin_df = monthly_production_df[monthly_production_df[s.col_customer] == s.hyda]
+        hyda_combined_margin_sum = hyda_combined_margin_df[s.col_total_margin_dollars].sum()
+        hyda_combined_production_sum = hyda_combined_margin_df[s.col_total_dollars_produced].sum()
+        df[s.summary_col_hyda_margin] = 100 * hyda_combined_margin_sum / hyda_combined_production_sum
+
+        daman_combined_margin_df = monthly_production_df[monthly_production_df[s.col_customer] == s.daman]
+        daman_combined_margin_sum = daman_combined_margin_df[s.col_total_margin_dollars].sum()
+        daman_combined_production_sum = daman_combined_margin_df[s.col_total_dollars_produced].sum()
+        df[s.summary_col_daman_margin] = 100 * daman_combined_margin_sum / daman_combined_production_sum
 
         # hf hours
-        hours_df = monthly_production_df[monthly_production_df[s.col_customer] == s.hyfo]
-        hours = hours_df[s.col_total_hours_produced].sum()
-        percent = hours / total_hours * 100
-        contract_percent = contract_hours / hours * 100
+        df[s.summary_col_blank] = ""
+        hyfo_hours_df = monthly_production_df[monthly_production_df[s.col_customer] == s.hyfo]
+        hyfo_hours = hyfo_hours_df[s.col_total_hours_produced].sum()
+        hyfo_percent = hyfo_hours / total_hours * 100
         # df[s.summary_col_hyfo_hours] = hours
-        df[s.summary_col_hyfo_percent] = percent
-        df[s.summary_col_contract_percent] = contract_percent
+        df[s.summary_col_hyfo_percent] = hyfo_percent
+
+        # contract hours
+        contract_df = hyfo_hours_df[monthly_production_df[s.col_hyfo_contract].notna()]
+        contract_hours = contract_df[s.col_total_hours_produced].sum()
+        contract_percent_total = contract_hours / total_hours * 100
+        contract_percent_hyfo = contract_hours / hyfo_hours * 100
+        # df[s.summary_col_contract_hours] = contract_hours
+        df[s.summary_col_contract_percent_total] = contract_percent_total
+        df[s.summary_col_contract_percent] = contract_percent_hyfo
 
         # hy hours
-        hours_df = monthly_production_df[monthly_production_df[s.col_customer] == s.hyda]
-        hours = hours_df[s.col_total_hours_produced].sum()
-        percent = hours / total_hours * 100
+        hyda_hours_df = monthly_production_df[monthly_production_df[s.col_customer] == s.hyda]
+        hyda_hours = hyda_hours_df[s.col_total_hours_produced].sum()
+        hyda_percent = hyda_hours / total_hours * 100
         # df[s.summary_col_hyda_hours] = hours
-        df[s.summary_col_hyda_percent] = percent
+        df[s.summary_col_hyda_percent] = hyda_percent
 
         # daman hours
-        hours_df = monthly_production_df[monthly_production_df[s.col_customer] == s.daman]
-        hours = hours_df[s.col_total_hours_produced].sum()
-        percent = hours / total_hours * 100
+        daman_hours_df = monthly_production_df[monthly_production_df[s.col_customer] == s.daman]
+        daman_hours = daman_hours_df[s.col_total_hours_produced].sum()
+        daman_percent = daman_hours / total_hours * 100
         # df[s.summary_col_daman_hours] = hours
-        df[s.summary_col_daman_percent] = percent
+        df[s.summary_col_daman_percent] = daman_percent
 
         # df = df.transpose()
         # print(df)

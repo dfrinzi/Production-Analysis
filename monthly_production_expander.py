@@ -19,6 +19,12 @@ class MonthlyProductionExpander:
             s.col_hyfo_contract,
         ]], on=s.col_part_number, how='left')
 
+        # todo: need better warning or report of parts without cycles in part data
+        # todo: need method to update part data when missing cycles or erros are found
+        zero_cycle_parts_df = monthly_prod_df.loc[monthly_prod_df[s.col_cycle_minutes] == 0]
+        print("Parts Missing Cycle Times:")
+        print(zero_cycle_parts_df)
+
         monthly_prod_df = pd.merge(monthly_prod_df, gross_margin_df[[
             s.col_part_number,
             s.col_sale_price,

@@ -15,7 +15,7 @@ col_qty_produced = "qty"
 col_part_revision = "rev"
 col_total_hours_produced = "total_hours"
 col_total_hours_percent = "hours/total %"
-col_total_dollars_produced = "total_production"
+col_total_dollars_produced = "total_dollars_produced"
 col_total_dollars_percent = "production/total %"
 col_margin_dollars = "gross_margin"
 col_total_margin_dollars = "total_margin_dollars"
@@ -51,6 +51,11 @@ summary_col_hyfo_percent = "Hyfo Hrs % of Total"
 summary_col_daman_percent = "Daman Hrs % of Total"
 summary_col_total_dollars = "Sales Value of Production"
 
+summary_col_hyfo_combined_margin = "Hyfo Combined GM"
+summary_col_hyfo_contract_margin = "Hyfo Contract GM"
+summary_col_hyfo_noncontract_margin = "Hyfo Non-Contract GM"
+summary_col_hyda_margin = "Hyda GM"
+summary_col_daman_margin = "Daman GM"
 
 
 # filepaths
