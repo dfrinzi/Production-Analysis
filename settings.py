@@ -25,6 +25,15 @@ col_total_margin_dollars_percent = "margin/total %"
 col_invoice_number = "invoice #"
 col_gross_margin_percent = "gm %"
 col_sale_price = "sale_price"
+col_sales_qty = "sales_qty"
+col_revenue = "revenue"
+col_tooling_cost = "tooling_cost"
+col_material_cost = "material_cost"
+col_labor_cost = "labor_cost"
+col_fixed_cost = "fixed_cost"
+col_variable_cost = "variable_cost"
+col_gross_margin = "gross_margin"
+col_total_cost = "total_cost"
 
 # summary report
 summary_col_blank = " "
@@ -61,17 +70,21 @@ summary_col_daman_margin = "Daman GM"
 # filepaths
 monthly_production_df_csv_output_folder = "test_data/output/"
 monthly_summary_df_csv_output_path = "test_data/output/monthly summary.csv"
-part_data_csv_path = "test_data/base_data/manifold_base_data_2_2024.csv"
+part_data_csv_path = "C:/eng/aim/data/info/Engineering Project Data/Manifold Analysis Data/Manifold Data.csv"
 workcenter_lookup_csv_path = "test_data/workcenter_name_lookup.csv"
-gross_margin_csv_path = "test_data/base_data/Gross_Margin_Download_2024_03_27.csv"
-master_price_csv_path = "test_data/base_data/Master_Price_List_Export_2024_03_27.csv"
+gross_margin_csv_path = ("C:/eng/aim/data/info/Engineering Project Data/Manifold Analysis "
+                         "Data/Gross_Margin_Download_2024_05_10.csv")
+gross_margin_csv_output_folder = "test_data/output/gross margin summary.csv"
+master_price_csv_path = ("C:/eng/aim/data/info/Engineering Project Data/Manifold Analysis "
+                         "Data/Master_Price_List_Export_2024_03_27.csv")
+gm_part_lookup_table_csv_path = "test_data/base_data/gm_part_lookup_table.csv"
 
 monthly_production_csv_folder = "test_data/prod_summaries_by_part/"
 monthly_production_csv_file_paths = {
     "Jan": "01-2024.csv",
     "Feb": "02-2024.csv",
     "Mar": "03-2024.csv",
-    "Apr": "",
+    "Apr": "04-2024.csv",
 }
 
 # customer codes

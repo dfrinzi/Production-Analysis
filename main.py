@@ -19,6 +19,8 @@ pd.set_option('display.width', 400)
 part_data_df = pd.DataFrame(pd.read_csv(s.part_data_csv_path))
 contract_parts_df = part_data_df.loc[part_data_df[s.col_hyfo_contract].notna()]
 gross_margin_df = pd.DataFrame(pd.read_csv(s.gross_margin_csv_path))
+gm_part_lookup_table_df = pd.DataFrame(pd.read_csv(s.gm_part_lookup_table_csv_path))
+gm_part_lookup_dict = dict(zip(gm_part_lookup_table_df.gm_part, gm_part_lookup_table_df.plex_part))
 
 # initialize objects
 monthly_production_reader = MonthlyProductionReader(s.workcenter_lookup_csv_path)
@@ -27,7 +29,8 @@ summarize_production = SummarizeProduction(part_data_df)
 summarize_production_by_workcenter = SummarizeProductionByWorkcenter(part_data_df)
 
 # process data csvs
-gross_margin_df = gross_margin_reader.read_gross_margin(gross_margin_df)
+gross_margin_df = gross_margin_reader.read_gross_margin(gross_margin_df, gm_part_lookup_dict)
+gross_margin_df.to_csv(s.gross_margin_csv_output_folder)
 
 # monthly reports
 monthly_file_list = os.listdir(s.monthly_production_csv_folder)

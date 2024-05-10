@@ -79,6 +79,6 @@ class SummarizeProduction:
         df[s.summary_col_daman_percent] = daman_percent
 
         # df = df.transpose()
-        # print(df)
+        #print(df)
         return df
 
